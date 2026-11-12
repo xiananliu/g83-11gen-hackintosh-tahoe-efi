@@ -24,7 +24,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>已禁用:改用小新验证过的 SSDT-PNLF (UID=0x13)</string>
+				<string>Disabled: alternate PNLF, UID=0x13</string>
 				<key>Enabled</key>
 				<false/>
 				<key>Path</key>
@@ -32,7 +32,7 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>SSDT-I2C0ADR.aml 补 I2C0 _ADR 触控板 VoodooI2C 依赖</string>
+				<string>Add I2C0 _ADR required by VoodooI2C</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Path</key>
@@ -40,23 +40,17 @@
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>内屏背光 PNLF APP0002 UID=0x13 (小新TGL实测)</string>
+				<string>Internal backlight PNLF APP0002, UID=0x13</string>
 				<key>Enabled</key>
 				<true/>
 				<key>Path</key>
 				<string>SSDT-PNLF-XSPNLF.aml</string>
 			</dict>
 			<dict>
-				<key>Arch</key>
-				<string>x86_64</string>
 				<key>Comment</key>
 				<string>G83 Fn+F6/F7 brightness keys (pair with _Q84/_Q86 renames + BrightnessKeys)</string>
 				<key>Enabled</key>
 				<true/>
-				<key>MaxKernel</key>
-				<string></string>
-				<key>MinKernel</key>
-				<string></string>
 				<key>Path</key>
 				<string>SSDT-G83-Brightness.aml</string>
 			</dict>
@@ -71,7 +65,7 @@
 				<key>BaseSkip</key>
 				<integer>0</integer>
 				<key>Comment</key>
-				<string>OSYS: Windows 2013 -&gt; Darwin, 解锁 TPD0 _CRS 的 I2C 资源 (OSYS&lt;0x07DC 门控)</string>
+				<string>OSYS: Windows 2013 -&gt; Darwin; expose TPD0 I2C resources</string>
 				<key>Count</key>
 				<integer>0</integer>
 				<key>Enabled</key>
@@ -451,7 +445,7 @@
 				<key>Base</key>
 				<string></string>
 				<key>Comment</key>
-				<string>I2CN=SDS0 -&gt; I2CN=1, 解锁TPD0 _STA (触摸板 ACPI 设备)</string>
+				<string>I2CN=SDS0 -&gt; I2CN=1; expose TPD0 ACPI device</string>
 				<key>Count</key>
 				<integer>0</integer>
 				<key>Enabled</key>
@@ -482,10 +476,12 @@
 				<key>TableSignature</key>
 				<data>
 				</data>
+				<key>BaseSkip</key>
+				<integer>0</integer>
 			</dict>
 			<dict>
 				<key>Comment</key>
-				<string>TPD0 _STA -&gt; Return(0x0F), 强制触摸板 ACPI 设备实例化(绕过 TPDT/I2CN 门控)</string>
+				<string>TPD0 _STA -&gt; Return(0x0F); bypass TPDT/I2CN condition</string>
 				<key>Count</key>
 				<integer>0</integer>
 				<key>Enabled</key>
@@ -511,6 +507,13 @@
 				<key>TableLength</key>
 				<integer>0</integer>
 				<key>TableSignature</key>
+				<data>
+				</data>
+				<key>Base</key>
+				<string></string>
+				<key>BaseSkip</key>
+				<integer>0</integer>
+				<key>Mask</key>
 				<data>
 				</data>
 			</dict>
@@ -999,7 +1002,7 @@
 				<key>BundlePath</key>
 				<string>VoodooInput.kext</string>
 				<key>Comment</key>
-				<string>输入依赖库 全局唯一提供者 I2C触摸板用</string>
+				<string>Single VoodooInput provider for multitouch</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1017,7 +1020,7 @@
 				<key>BundlePath</key>
 				<string>VoodooSMBus.kext</string>
 				<key>Comment</key>
-				<string>SMBus 总线 G83 触控板</string>
+				<string>SMBus controller</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1035,7 +1038,7 @@
 				<key>BundlePath</key>
 				<string>VoodooRMI.kext</string>
 				<key>Comment</key>
-				<string>Synaptics SMBus 触控板 G83</string>
+				<string>Synaptics RMI support</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1053,7 +1056,7 @@
 				<key>BundlePath</key>
 				<string>VoodooRMI.kext/Contents/PlugIns/VoodooInput.kext</string>
 				<key>Comment</key>
-				<string>与独立版重复 G83HS触控板为I2C不用RMI 禁用</string>
+				<string>Disabled duplicate VoodooInput provider</string>
 				<key>Enabled</key>
 				<false/>
 				<key>ExecutablePath</key>
@@ -1071,7 +1074,7 @@
 				<key>BundlePath</key>
 				<string>VoodooRMI.kext/Contents/PlugIns/RMII2C.kext</string>
 				<key>Comment</key>
-				<string>G83 触控板走 SMBus 不需要 I2C</string>
+				<string>Disabled RMI I2C transport</string>
 				<key>Enabled</key>
 				<false/>
 				<key>ExecutablePath</key>
@@ -1089,7 +1092,7 @@
 				<key>BundlePath</key>
 				<string>VoodooRMI.kext/Contents/PlugIns/RMISMBus.kext</string>
 				<key>Comment</key>
-				<string>SMBus 触控板总线插件 G83</string>
+				<string>RMI SMBus transport</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1105,9 +1108,45 @@
 				<key>Arch</key>
 				<string>x86_64</string>
 				<key>BundlePath</key>
+				<string>VoodooGPIO.kext</string>
+				<key>Comment</key>
+				<string>GPIO interrupt support</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/VoodooGPIO</string>
+				<key>MaxKernel</key>
+				<string></string>
+				<key>MinKernel</key>
+				<string></string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>Arch</key>
+				<string>x86_64</string>
+				<key>BundlePath</key>
+				<string>VoodooI2CServices.kext</string>
+				<key>Comment</key>
+				<string>I2C services dependency</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/VoodooI2CServices</string>
+				<key>MaxKernel</key>
+				<string></string>
+				<key>MinKernel</key>
+				<string></string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
+			<dict>
+				<key>Arch</key>
+				<string>x86_64</string>
+				<key>BundlePath</key>
 				<string>VoodooI2C.kext</string>
 				<key>Comment</key>
-				<string>I2C 控制器驱动 TOSB1001 触控板</string>
+				<string>I2C controller for TOSB1001 touchpad</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1123,49 +1162,9 @@
 				<key>Arch</key>
 				<string>x86_64</string>
 				<key>BundlePath</key>
-				<string>VoodooGPIO.kext</string>
-				<key>Comment</key>
-				<string>GPIO 中断支持 触控板 GpioInt 用</string>
-				<key>Enabled</key>
-				<true/>
-				<key>ExecutablePath</key>
-				<string>Contents/MacOS/VoodooGPIO</string>
-				<key>MaxKernel</key>
-				<string></string>
-				<key>MinKernel</key>
-				<string></string>
-				<key>Path</key>
-				<string>VoodooGPIO.kext</string>
-				<key>PlistPath</key>
-				<string>Contents/Info.plist</string>
-			</dict>
-			<dict>
-				<key>Arch</key>
-				<string>x86_64</string>
-				<key>BundlePath</key>
-				<string>VoodooI2CServices.kext</string>
-				<key>Comment</key>
-				<string>I2C 服务依赖 I2CHID 需要</string>
-				<key>Enabled</key>
-				<true/>
-				<key>ExecutablePath</key>
-				<string>Contents/MacOS/VoodooI2CServices</string>
-				<key>MaxKernel</key>
-				<string></string>
-				<key>MinKernel</key>
-				<string></string>
-				<key>Path</key>
-				<string>VoodooI2CServices.kext</string>
-				<key>PlistPath</key>
-				<string>Contents/Info.plist</string>
-			</dict>
-			<dict>
-				<key>Arch</key>
-				<string>x86_64</string>
-				<key>BundlePath</key>
 				<string>VoodooI2C.kext/Contents/PlugIns/VoodooInput.kext</string>
 				<key>Comment</key>
-				<string>与 RMI 内置版重复 禁用</string>
+				<string>Disabled duplicate VoodooInput provider</string>
 				<key>Enabled</key>
 				<false/>
 				<key>ExecutablePath</key>
@@ -1183,7 +1182,7 @@
 				<key>BundlePath</key>
 				<string>VoodooI2CHID.kext</string>
 				<key>Comment</key>
-				<string>I2C HID 设备驱动 TOSB1001</string>
+				<string>I2C HID support for TOSB1001</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1363,7 +1362,7 @@
 				<key>BundlePath</key>
 				<string>AirportItlwm-Sequoia.kext</string>
 				<key>Comment</key>
-				<string>AirportItlwm v2.4.0 Sequoia variant, macOS15/Darwin24 及以下 (laobamac v2.4.0-alpha RELEASE)</string>
+				<string>AirportItlwm 2.4.0 Sequoia variant; Darwin 24.2-24.99</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>

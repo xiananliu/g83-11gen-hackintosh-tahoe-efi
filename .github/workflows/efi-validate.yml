@@ -1,0 +1,32 @@
+name: Validate EFI configuration
+
+on:
+  push:
+    paths:
+      - 'EFI/OC/config.plist'
+      - '.github/workflows/efi-validate.yml'
+  pull_request:
+    paths:
+      - 'EFI/OC/config.plist'
+      - '.github/workflows/efi-validate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ocvalidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Download the validator matching OpenCore 1.0.8
+        run: |
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/opencore.zip" \
+            https://github.com/acidanthera/OpenCorePkg/releases/download/1.0.8/OpenCore-1.0.8-RELEASE.zip
+          printf '%s  %s\n' \
+            2011e8b7216ecb2645d97ea710df965947edd406846e92050b9bc4190be6d27b \
+            "$RUNNER_TEMP/opencore.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/opencore.zip" 'Utilities/ocvalidate/ocvalidate.linux' -d "$RUNNER_TEMP/opencore"
+          chmod +x "$RUNNER_TEMP/opencore/Utilities/ocvalidate/ocvalidate.linux"
+      - name: Validate the published configuration
+        run: '"$RUNNER_TEMP/opencore/Utilities/ocvalidate/ocvalidate.linux" EFI/OC/config.plist'
