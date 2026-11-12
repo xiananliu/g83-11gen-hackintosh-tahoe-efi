@@ -1,0 +1,2 @@
+# A unified diff context prefix may precede tabs in the original source.
+docs/AirportItlwm/*.patch whitespace=-space-before-tab

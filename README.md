@@ -37,7 +37,7 @@
 
 | 功能 | 状态 | 说明 |
 |------|------|------|
-| Wi-Fi | ✅ | AirportItlwm（Intel 无线网卡） |
+| Wi-Fi | ✅ | AirportItlwm；Tahoe 的 WPA2-Enterprise / PEAP 已在 AX201 实机验证，见 [企业认证修复记录](docs/AirportItlwm/README.md) |
 | 蓝牙 | ✅ | IntelBluetoothFirmware + BlueToolFixup |
 | 有线网卡 | ✅ | IntelMausi |
 | USB | ✅ | USBToolBox + UTBMap 定制端口表 |
@@ -64,6 +64,8 @@ sudo pmset -a sleep 0
 sudo pmset -a hibernatemode 0
 sudo pmset -a disablesleep 1
 ```
+
+Tahoe 无线驱动采用 `4240f66` 企业认证修复构建，针对热点可连、802.1X 身份响应因 BSSID 查询失败而中断的问题。该补丁尚未被驱动上游合并；一次 PEAP 实测不代表所有企业网络、漫游与睡眠恢复均已验证。来源、源码、校验和回退方法见 [修复记录](docs/AirportItlwm/README.md)。Sequoia 驱动保持原版本。
 
 ## 5. WEX（WhateverXe）改进点
 
