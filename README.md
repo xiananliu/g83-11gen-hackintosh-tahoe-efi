@@ -80,7 +80,12 @@
 3. **三码替换（必做一次）**：`config.plist` 的 `PlatformInfo→Generic` 中 `SystemSerialNumber / MLB / SystemUUID / ROM` 均为空——请用 [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) 选择 `MacBookPro16,2` 生成后再填入；`ROM` 填 12 位随机 MAC，或从另一台真 Mac 抓取（iMessage 更容易通）。**请勿直接使用网络/他人已发布的 serial**。
 4. **安装核显运行组件（必装）**：进入 macOS 后，安装与本 EFI 配套的 [WhateverXe-Graphics-0.4.4.pkg](https://github.com/b00t0x/WhateverXe-Graphics/releases/download/v0.4.4/WhateverXe-Graphics-0.4.4.pkg)，然后重启。已经安装 0.4.4 的用户无需重复安装。
 5. **安装内置麦克风组件（必装）**：进入 macOS 后，下载并安装 [`TGLDmic-HAL-startup-fix.pkg`](https://github.com/xiananliu/TGLDmic-HAL-Fix/releases/download/hal-startup-fix-1/TGLDmic-HAL-startup-fix.pkg)。修正版会等内核驱动就绪后再向 Core Audio 注册麦克风，针对开机后输入设备偶尔不出现的问题。如果之前装过原版，直接安装修正版即可替换。安装后重启，在“系统设置 → 声音 → 输入”选择 **Internal Microphone (TGLDmic)**。若 macOS 阻止打开安装包，请在“隐私与安全性”中允许，或在 Finder 中右键选择“打开”。
-6. **启用睡眠**：更新 EFI 并重启后，如果旧版曾执行过 `sudo pmset -a disablesleep 1`，请在终端执行 `sudo pmset -a disablesleep 0`。可以用苹果菜单手动睡眠，或合盖后再开盖测试。实测期间仍会出现后台唤醒，硬件 `SLP_S0` 驻留计数为 0。
+6. **恢复旧版关闭的睡眠**。更新 EFI 并重启后，如果之前按旧版说明关闭过睡眠，请在终端按需恢复。
+   - `sudo pmset -a disablesleep 0` 解除系统睡眠禁用，恢复苹果菜单手动睡眠和合盖睡眠。
+   - 旧版的 `sleep 0` 关闭了空闲自动睡眠。若也想恢复自动睡眠，可执行 `sudo pmset -a sleep 1`，为电池和接电模式启用空闲睡眠计时。也可以用 `-b`（电池）或 `-c`（接电）单独设置。
+   - `hibernatemode` 保持为 `0` 即可，旧版已设过的用户无需重复执行。这个值关闭写盘休眠，Deep Idle 仍可用。
+
+   实测期间仍会出现后台唤醒，硬件 `SLP_S0` 驻留计数为 0。
 
 ## 7. 关联项目
 
