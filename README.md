@@ -42,6 +42,7 @@
 | 有线网卡 | ✅ | IntelMausi |
 | USB | ✅ | USBToolBox + UTBMap 定制端口表 |
 | 内屏（息屏）唤醒 | ✅ | 熄屏后可正常恢复 |
+| 睡眠唤醒 | ✅ | S0ixStandby 启用 Deep Idle。Sequoia 15.8.2 实测合盖睡眠、开盖恢复。 |
 | 内屏亮度 | ✅ | 已修复开局亮度偏低 |
 | `Fn` 亮度快捷键 | ✅ | BrightnessKeys |
 | 声卡（扬声器 / 耳机） | ✅ | ALC257 |
@@ -57,14 +58,7 @@
 
 | 问题 | 现状 / 处理 |
 |------|------------|
-| 无法睡眠唤醒 | 通过禁用系统睡眠解决，执行以下命令即可： |
 | 浏览器播放部分在线视频偶尔导致 GPU 卡死 | 1.4.0 已大幅降低发生频率，本机实测 App Store 未再卡死，腾讯会议摄像头正常。 |
-
-```bash
-sudo pmset -a sleep 0
-sudo pmset -a hibernatemode 0
-sudo pmset -a disablesleep 1
-```
 
 ## 5. WEX（WhateverXe）改进点
 
@@ -86,6 +80,7 @@ sudo pmset -a disablesleep 1
 3. **三码替换（必做一次）**：`config.plist` 的 `PlatformInfo→Generic` 中 `SystemSerialNumber / MLB / SystemUUID / ROM` 均为空——请用 [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) 选择 `MacBookPro16,2` 生成后再填入；`ROM` 填 12 位随机 MAC，或从另一台真 Mac 抓取（iMessage 更容易通）。**请勿直接使用网络/他人已发布的 serial**。
 4. **安装核显运行组件（必装）**：进入 macOS 后，安装与本 EFI 配套的 [WhateverXe-Graphics-0.4.4.pkg](https://github.com/b00t0x/WhateverXe-Graphics/releases/download/v0.4.4/WhateverXe-Graphics-0.4.4.pkg)，然后重启。已经安装 0.4.4 的用户无需重复安装。
 5. **安装内置麦克风组件（必装）**：进入 macOS 后，下载并安装 [`TGLDmic-HAL-startup-fix.pkg`](https://github.com/xiananliu/TGLDmic-HAL-Fix/releases/download/hal-startup-fix-1/TGLDmic-HAL-startup-fix.pkg)。修正版会等内核驱动就绪后再向 Core Audio 注册麦克风，针对开机后输入设备偶尔不出现的问题。如果之前装过原版，直接安装修正版即可替换。安装后重启，在“系统设置 → 声音 → 输入”选择 **Internal Microphone (TGLDmic)**。若 macOS 阻止打开安装包，请在“隐私与安全性”中允许，或在 Finder 中右键选择“打开”。
+6. **启用睡眠**：更新 EFI 并重启后，如果旧版曾执行过 `sudo pmset -a disablesleep 1`，请在终端执行 `sudo pmset -a disablesleep 0`。可以用苹果菜单手动睡眠，或合盖后再开盖测试。实测期间仍会出现后台唤醒，硬件 `SLP_S0` 驻留计数为 0。
 
 ## 7. 关联项目
 
@@ -97,6 +92,7 @@ sudo pmset -a disablesleep 1
 | [WhateverXe Graphics](https://github.com/b00t0x/WhateverXe-Graphics) | 核显运行组件（首次进系统必装，见使用说明第 4 条） |
 | [wex-modified-edition](https://github.com/xiananliu/wex-modified-edition) | 本机使用的 WhateverXe 下游修改版（驱动改进细节见其 README） |
 | [VirtualSMC](https://github.com/acidanthera/VirtualSMC) | SMC 模拟（含电池/传感器插件） |
+| [S0ixStandby](https://github.com/labrouss/S0ixStandby) | Deep Idle 睡眠与唤醒（v0.5.4，BSD-3-Clause，许可见 [LICENSE](EFI/OC/Kexts/S0ixStandby.kext/Contents/Resources/LICENSE)） |
 | [AppleALC](https://github.com/acidanthera/AppleALC) | 声卡驱动 |
 | [SimpleHDA](https://github.com/laobamac/SimpleHDA) | macOS Tahoe 原版 AppleHDA 恢复插件（本 EFI 已配置） |
 | [TGLDmic](https://github.com/labrouss/TGLDmic) | Tiger Lake 数字麦克风驱动（BSD-3-Clause；版权归 labrouss 与 TGLDmic contributors；EFI 内含 kext，系统内需安装 HAL pkg） |

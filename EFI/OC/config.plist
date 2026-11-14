@@ -60,6 +60,14 @@
 				<key>Path</key>
 				<string>SSDT-G83-Brightness.aml</string>
 			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>Enable macOS Deep Idle for S0ixStandby</string>
+				<key>Enabled</key>
+				<true/>
+				<key>Path</key>
+				<string>SSDT-DEEPIDLE.aml</string>
+			</dict>
 		</array>
 		<key>Delete</key>
 		<array/>
@@ -1447,6 +1455,24 @@
 				<key>PlistPath</key>
 				<string>Contents/Info.plist</string>
 			</dict>
+			<dict>
+				<key>Arch</key>
+				<string>x86_64</string>
+				<key>BundlePath</key>
+				<string>S0ixStandby.kext</string>
+				<key>Comment</key>
+				<string>S0ixStandby v0.5.4 Release</string>
+				<key>Enabled</key>
+				<true/>
+				<key>ExecutablePath</key>
+				<string>Contents/MacOS/S0ixStandby</string>
+				<key>MaxKernel</key>
+				<string></string>
+				<key>MinKernel</key>
+				<string></string>
+				<key>PlistPath</key>
+				<string>Contents/Info.plist</string>
+			</dict>
 		</array>
 		<key>Block</key>
 		<array/>
@@ -1454,7 +1480,7 @@
 		<dict>
 			<key>Cpuid1Data</key>
 			<data>
-			6gYJAAAAAAAAAAAAAAAAAA==
+			5QYHAAAAAAAAAAAAAAAAAA==
 			</data>
 			<key>Cpuid1Mask</key>
 			<data>
