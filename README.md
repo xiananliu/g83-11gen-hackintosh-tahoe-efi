@@ -58,6 +58,7 @@
 | 问题 | 现状 / 处理 |
 |------|------------|
 | 无法睡眠唤醒 | 通过禁用系统睡眠解决，执行以下命令即可： |
+| 浏览器播放部分在线视频偶尔导致 GPU 卡死 | 1.4.0 已大幅降低发生频率，本机实测 App Store 未再卡死，腾讯会议摄像头正常。 |
 
 ```bash
 sudo pmset -a sleep 0
@@ -67,25 +68,23 @@ sudo pmset -a disablesleep 1
 
 ## 5. WEX（WhateverXe）改进点
 
-在本机使用的开源图形驱动 [WhateverXe](https://github.com/b00t0x/WhateverXe) 基础上做的下游修复（完整细节见 [wex-modified-edition](https://github.com/xiananliu/wex-modified-edition)）：
+本版基于 [WhateverXe 0.8.2](https://github.com/b00t0x/WhateverXe/releases/tag/0.8.2)。下表列出 Dynabook G83 的显示修正，详见 [wex-modified-edition 0.8.2](https://github.com/xiananliu/wex-modified-edition/releases/tag/0.8.2)。
 
-| 解决的问题 |
-|-----------|
-| 外接 HDMI 可输出 4K@60Hz |
-| 4K@60 黑闪（每几秒黑屏数秒）根治 |
-| 内屏 eDP 偶发不亮／点亮后失效 |
-| 开机亮度偏低 |
-| 熄屏后无法唤醒 |
-| 本机核显（80-EU）在此驱动下加速可用 |
+| 解决的问题 | 启动参数 |
+|-----------|---------|
+| 原生 HDMI 的 4K@60Hz 模式无法选择，或输出时周期性黑闪 | `-wex-hdmi-clock600` 和 `-wex-hdmi-scdc-write`，一起启用 |
+| 驱动接管时因异常显示时钟导致内屏黑屏 | `-wex-cdclk-sanitize` |
+| 开机亮度偏低 | `-wex-blfix` |
+| 长时间熄屏后内屏无法恢复 | `-wex-dcoff`，默认不启用，遇到此问题可单独测试 |
 
-排障用探针与实验项已从发布版配置中移除，不属于本仓库内容。
+1.4.0 已移除上一版自行实现的 GPU 修复和实验性 eDP 训练补丁。后续 GPU 稳定性修复将随 WhateverXe 上游版本同步。
 
 ## 6. 使用说明
 
 1. 用磁盘工具（或 `diskutil mount diskXs1`）挂载 EFI 分区，把本仓库的 `EFI` 覆盖过去（机器自带的 Windows 引导目录可保留不动）。
 2. BIOS 设置：关闭 **Secure Boot**即可启动（其他项保持默认）。
 3. **三码替换（必做一次）**：`config.plist` 的 `PlatformInfo→Generic` 中 `SystemSerialNumber / MLB / SystemUUID / ROM` 均为空——请用 [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) 选择 `MacBookPro16,2` 生成后再填入；`ROM` 填 12 位随机 MAC，或从另一台真 Mac 抓取（iMessage 更容易通）。**请勿直接使用网络/他人已发布的 serial**。
-4. **安装核显运行组件（必装）**：第一次成功进入系统后，到 [WhateverXe Graphics Releases](https://github.com/b00t0x/WhateverXe-Graphics/releases) 下载最新 **pkg** 安装，然后重启——不装的话核显加速不完整。
+4. **安装核显运行组件（必装）**：进入 macOS 后，安装与本 EFI 配套的 [WhateverXe-Graphics-0.4.4.pkg](https://github.com/b00t0x/WhateverXe-Graphics/releases/download/v0.4.4/WhateverXe-Graphics-0.4.4.pkg)，然后重启。已经安装 0.4.4 的用户无需重复安装。
 5. **安装内置麦克风组件（必装）**：进入 macOS 后，下载并安装 [`TGLDmic-HAL-startup-fix.pkg`](https://github.com/xiananliu/TGLDmic-HAL-Fix/releases/download/hal-startup-fix-1/TGLDmic-HAL-startup-fix.pkg)。修正版会等内核驱动就绪后再向 Core Audio 注册麦克风，针对开机后输入设备偶尔不出现的问题。如果之前装过原版，直接安装修正版即可替换。安装后重启，在“系统设置 → 声音 → 输入”选择 **Internal Microphone (TGLDmic)**。若 macOS 阻止打开安装包，请在“隐私与安全性”中允许，或在 Finder 中右键选择“打开”。
 
 ## 7. 关联项目

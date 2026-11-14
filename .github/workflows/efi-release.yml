@@ -49,20 +49,24 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           V=${{ steps.ver.outputs.version }}
-          {
-            echo "Toshiba dynabook G83/HS Hackintosh EFI，版本 $V。"
-            echo
-            echo "- 变更详情见自上一 tag 以来的提交记录"
-            echo "- 使用方法见 [README](https://github.com/xiananliu/g83-11gen-hackintosh-tahoe-efi#readme)（三码需自行生成）"
-            echo "- WEX 驱动版本与改进点说明见 [wex-modified-edition releases](https://github.com/xiananliu/wex-modified-edition/releases)"
-            echo
-            echo "## 三码提醒（重要）"
-            echo
-            echo "- **新安装**：包内 `config.plist` 三码为空，需用 [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) 选择 \`MacBookPro16,2\` 自行生成（详见 README 使用说明第 3 条）"
-            echo "- **升级覆盖**：请勿直接用包内的空三码 `config.plist` 覆盖你已生成过的三码！保留你自己机器的 \`SystemSerialNumber / MLB / SystemUUID / ROM\`"
-          } > notes.md
+          NOTES="docs/releases/$V.md"
+          if [ ! -s "$NOTES" ]; then
+            {
+              echo "Toshiba dynabook G83/HS Hackintosh EFI，版本 $V。"
+              echo
+              echo "- 变更详情见自上一 tag 以来的提交记录"
+              echo "- 使用方法见 [README](https://github.com/xiananliu/g83-11gen-hackintosh-tahoe-efi#readme)（三码需自行生成）"
+              echo "- WEX 驱动版本与改进点说明见 [wex-modified-edition releases](https://github.com/xiananliu/wex-modified-edition/releases)"
+              echo
+              echo "## 三码提醒（重要）"
+              echo
+              echo "- **新安装**：包内 \`config.plist\` 三码为空，需用 [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) 选择 \`MacBookPro16,2\` 自行生成（详见 README 使用说明第 3 条）"
+              echo "- **升级覆盖**：请勿直接用包内的空三码 \`config.plist\` 覆盖你已生成过的三码！保留你自己机器的 \`SystemSerialNumber / MLB / SystemUUID / ROM\`"
+            } > notes.md
+            NOTES=notes.md
+          fi
           gh release create "$V" \
             --target "$GITHUB_SHA" \
             --title "$V" \
-            --notes-file notes.md \
+            --notes-file "$NOTES" \
             "EFI-$V.zip" "EFI-$V.zip.sha256"

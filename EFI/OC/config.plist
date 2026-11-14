@@ -1742,7 +1742,7 @@
 				AAAAAAAAAAAAAAAAAAA=
 				</data>
 				<key>boot-args</key>
-				<string>-allow3d -disablegfxfirmware -igfxdvmt -vi2c-force-polling alcid=11 TSC_sync_margin=0 -wex-cdclk-sanitize -wex-blfix -wex-dcoff -wex-hdmi-clock600 -wex-hdmi-scdc-write -tgldmic -wex-tgl-va-fallback -wex-tgl-va-sites=1 -wex-tgl-fix-memory-leak -wex-edp-fix-training</string>
+				<string>-allow3d -disablegfxfirmware -igfxdvmt -vi2c-force-polling alcid=11 -wex-cdclk-sanitize -wex-blfix -wex-hdmi-clock600 -wex-hdmi-scdc-write -tgldmic</string>
 				<key>csr-active-config</key>
 				<data>
 				AwgAAA==
