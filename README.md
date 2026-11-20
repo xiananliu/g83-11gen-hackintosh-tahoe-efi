@@ -63,7 +63,7 @@
 
 ## 5. WEX（WhateverXe）改进点
 
-本版基于 [WhateverXe 0.8.2](https://github.com/b00t0x/WhateverXe/releases/tag/0.8.2)。下表列出 Dynabook G83 的显示修正，详见 [wex-modified-edition 0.8.2](https://github.com/xiananliu/wex-modified-edition/releases/tag/0.8.2)。
+本版基于 [WhateverXe 0.8.3](https://github.com/b00t0x/WhateverXe/releases/tag/0.8.3)。下表列出 Dynabook G83 的显示修正，详见 [wex-modified-edition 0.8.3](https://github.com/xiananliu/wex-modified-edition/releases/tag/0.8.3)。
 
 | 解决的问题 | 启动参数 |
 |-----------|---------|
