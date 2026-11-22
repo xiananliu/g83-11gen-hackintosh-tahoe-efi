@@ -6,6 +6,8 @@
 
 东芝 dynabook G83/HS（11 代 Tiger Lake）黑苹果 EFI，支持 macOS Sequoia（15.8.x）与 macOS Tahoe（26.7+）。基于 OpenCore 1.0.8 RELEASE。
 
+**1.4.8 睡眠与唤醒修复**：改善睡眠后立即自动唤醒、反复睡醒及待机发热耗电，补齐电源键唤醒支持。已在本机 Sequoia 15.8.2 完成多次菜单睡眠、合盖睡眠和唤醒测试；整夜耗电、不同外设条件及 Tahoe 本次尚未复测。详见 [1.4.8 更新说明](docs/releases/1.4.8.md)。
+
 ## 1. 最低系统要求
 
 本 EFI 同时支持两个系统版本（网卡驱动 SimpleHDA / AirportItlwm 已按内核版本自动分流加载）：
@@ -41,9 +43,9 @@
 | 蓝牙 | ✅ | IntelBluetoothFirmware + BlueToolFixup |
 | 有线网卡 | ✅ | IntelMausi |
 | USB | ✅ | USBToolBox + UTBMap 定制端口表 |
-| TF（microSD）卡槽 | ✅ | Realtek RTS522A（`10ec:522a`），由 `RealtekCardReader.kext` 0.9.7 驱动。Sequoia 15.8.2 实测插卡后可识别并挂载。 |
+| TF（microSD）卡槽 | ✅ | Realtek RTS522A（`10ec:522a`），1.4.8 更新为 `RealtekCardReader.kext` 0.9.8，以改善睡眠期间的稳定性。旧版已实测插卡识别与挂载，本次升级后未单独复测读写。 |
 | 内屏（息屏）唤醒 | ✅ | 熄屏后可正常恢复 |
-| 睡眠唤醒 | ✅ | S0ixStandby 启用 Deep Idle。Sequoia 15.8.2 实测合盖睡眠、开盖恢复。 |
+| 睡眠唤醒 | ✅ | 1.4.8 改善异常循环唤醒；本机 Sequoia 15.8.2 已实测菜单睡眠、合盖睡眠、电源键及开盖唤醒。长时间待机耗电仍需验证。 |
 | 内屏亮度 | ✅ | 已修复开局亮度偏低 |
 | `Fn` 亮度快捷键 | ✅ | BrightnessKeys |
 | 声卡（扬声器 / 耳机） | ✅ | ALC257 |
@@ -60,6 +62,8 @@
 | 问题 | 现状 / 处理 |
 |------|------------|
 | 浏览器播放部分在线视频偶尔导致 GPU 卡死 | 1.4.0 已大幅降低发生频率，本机实测 App Store 未再卡死，腾讯会议摄像头正常。 |
+| 长时间睡眠耗电 | 1.4.8 短时实测未再出现高频循环唤醒，但睡眠深度仍有波动，整夜耗电尚未验证。 |
+| 扩展设备唤醒 | 为减少异常自动唤醒，部分扩展设备的唤醒能力受到限制；建议优先使用电源键唤醒。 |
 
 ## 5. WEX（WhateverXe）改进点
 
@@ -86,7 +90,7 @@
    - 旧版的 `sleep 0` 关闭了空闲自动睡眠。若也想恢复自动睡眠，可执行 `sudo pmset -a sleep 1`，为电池和接电模式启用空闲睡眠计时。也可以用 `-b`（电池）或 `-c`（接电）单独设置。
    - `hibernatemode` 保持为 `0` 即可，旧版已设过的用户无需重复执行。这个值关闭写盘休眠，Deep Idle 仍可用。
 
-   实测期间仍会出现后台唤醒，硬件 `SLP_S0` 驻留计数为 0。
+   1.4.8 已改善此前的高频循环唤醒。更新后先保存工作，在电池供电下做短时睡眠测试，并优先使用电源键唤醒；确认正常后再观察较长时间的待机耗电。使用本次修复需同步更新完整 EFI 配置，不能仅替换一个驱动；升级前请保留自己的机器标识信息。硬件 `SLP_S0` 驻留计数仍为 0，不能仅凭这一项判断整机待机功耗。
 
 ## 7. 关联项目
 
@@ -98,7 +102,7 @@
 | [WhateverXe Graphics](https://github.com/b00t0x/WhateverXe-Graphics) | 核显运行组件（首次进系统必装，见使用说明第 4 条） |
 | [wex-modified-edition](https://github.com/xiananliu/wex-modified-edition) | 本机使用的 WhateverXe 下游修改版（驱动改进细节见其 README） |
 | [VirtualSMC](https://github.com/acidanthera/VirtualSMC) | SMC 模拟（含电池/传感器插件） |
-| [S0ixStandby](https://github.com/labrouss/S0ixStandby) | Deep Idle 睡眠与唤醒（v0.5.4，BSD-3-Clause，许可见 [LICENSE](EFI/OC/Kexts/S0ixStandby.kext/Contents/Resources/LICENSE)） |
+| [S0ixStandby](https://github.com/labrouss/S0ixStandby) | Deep Idle 睡眠与唤醒（v0.5.6，BSD-3-Clause，许可见 [LICENSE](EFI/OC/Kexts/S0ixStandby.kext/Contents/Resources/LICENSE)） |
 | [AppleALC](https://github.com/acidanthera/AppleALC) | 声卡驱动 |
 | [SimpleHDA](https://github.com/laobamac/SimpleHDA) | macOS Tahoe 原版 AppleHDA 恢复插件（本 EFI 已配置） |
 | [TGLDmic](https://github.com/labrouss/TGLDmic) | Tiger Lake 数字麦克风驱动（BSD-3-Clause；版权归 labrouss 与 TGLDmic contributors；EFI 内含 kext，系统内需安装 HAL pkg） |

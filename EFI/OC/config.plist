@@ -62,6 +62,22 @@
 				<key>Path</key>
 				<string>SSDT-DEEPIDLE.aml</string>
 			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>G83 RP03/RP04/RP05/RP08 wake fix; retain original _PRW on non-Darwin</string>
+				<key>Enabled</key>
+				<true/>
+				<key>Path</key>
+				<string>SSDT-G83-RPWAKE.aml</string>
+			</dict>
+			<dict>
+				<key>Comment</key>
+				<string>G83 power-button wake: arm EC GPE 0x6E on Darwin</string>
+				<key>Enabled</key>
+				<true/>
+				<key>Path</key>
+				<string>SSDT-G83-PWRWAKE.aml</string>
+			</dict>
 		</array>
 		<key>Delete</key>
 		<array/>
@@ -681,6 +697,174 @@
 				RFNEVA==
 				</data>
 			</dict>
+			<dict>
+				<key>Base</key>
+				<string></string>
+				<key>BaseSkip</key>
+				<integer>0</integer>
+				<key>Comment</key>
+				<string>G83 RP03: _PRW to XPRW; suppress GPIO wake on macOS</string>
+				<key>Count</key>
+				<integer>1</integer>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>
+				FCxfUFJXAKAcWxJcLwRfU0JfUEMwMFJQMDNQUFJXAKRQ
+				UFJXpEdQUlcKaQoE
+				</data>
+				<key>Limit</key>
+				<integer>0</integer>
+				<key>Mask</key>
+				<data>
+				</data>
+				<key>OemTableId</key>
+				<data>
+				QTAxMEQAAAA=
+				</data>
+				<key>Replace</key>
+				<data>
+				FCxYUFJXAKAcWxJcLwRfU0JfUEMwMFJQMDNQUFJXAKRQ
+				UFJXpEdQUlcKaQoE
+				</data>
+				<key>ReplaceMask</key>
+				<data>
+				</data>
+				<key>Skip</key>
+				<integer>0</integer>
+				<key>TableLength</key>
+				<integer>466985</integer>
+				<key>TableSignature</key>
+				<data>
+				RFNEVA==
+				</data>
+			</dict>
+			<dict>
+				<key>Base</key>
+				<string></string>
+				<key>BaseSkip</key>
+				<integer>0</integer>
+				<key>Comment</key>
+				<string>G83 RP04: _PRW to XPRW; suppress GPIO wake on macOS</string>
+				<key>Count</key>
+				<integer>1</integer>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>
+				FCxfUFJXAKAcWxJcLwRfU0JfUEMwMFJQMDRQUFJXAKRQ
+				UFJXpEdQUlcKaQoE
+				</data>
+				<key>Limit</key>
+				<integer>0</integer>
+				<key>Mask</key>
+				<data>
+				</data>
+				<key>OemTableId</key>
+				<data>
+				QTAxMEQAAAA=
+				</data>
+				<key>Replace</key>
+				<data>
+				FCxYUFJXAKAcWxJcLwRfU0JfUEMwMFJQMDRQUFJXAKRQ
+				UFJXpEdQUlcKaQoE
+				</data>
+				<key>ReplaceMask</key>
+				<data>
+				</data>
+				<key>Skip</key>
+				<integer>0</integer>
+				<key>TableLength</key>
+				<integer>466985</integer>
+				<key>TableSignature</key>
+				<data>
+				RFNEVA==
+				</data>
+			</dict>
+			<dict>
+				<key>Base</key>
+				<string></string>
+				<key>BaseSkip</key>
+				<integer>0</integer>
+				<key>Comment</key>
+				<string>G83 RP05: _PRW to XPRW; suppress GPIO wake on macOS</string>
+				<key>Count</key>
+				<integer>1</integer>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>
+				FCxfUFJXAKAcWxJcLwRfU0JfUEMwMFJQMDVQUFJXAKRQ
+				UFJXpEdQUlcKaQoE
+				</data>
+				<key>Limit</key>
+				<integer>0</integer>
+				<key>Mask</key>
+				<data>
+				</data>
+				<key>OemTableId</key>
+				<data>
+				QTAxMEQAAAA=
+				</data>
+				<key>Replace</key>
+				<data>
+				FCxYUFJXAKAcWxJcLwRfU0JfUEMwMFJQMDVQUFJXAKRQ
+				UFJXpEdQUlcKaQoE
+				</data>
+				<key>ReplaceMask</key>
+				<data>
+				</data>
+				<key>Skip</key>
+				<integer>0</integer>
+				<key>TableLength</key>
+				<integer>466985</integer>
+				<key>TableSignature</key>
+				<data>
+				RFNEVA==
+				</data>
+			</dict>
+			<dict>
+				<key>Base</key>
+				<string></string>
+				<key>BaseSkip</key>
+				<integer>0</integer>
+				<key>Comment</key>
+				<string>G83 RP08: _PRW to XPRW; suppress GPIO wake on macOS</string>
+				<key>Count</key>
+				<integer>1</integer>
+				<key>Enabled</key>
+				<true/>
+				<key>Find</key>
+				<data>
+				FCxfUFJXAKAcWxJcLwRfU0JfUEMwMFJQMDhQUFJXAKRQ
+				UFJXpEdQUlcKaQoE
+				</data>
+				<key>Limit</key>
+				<integer>0</integer>
+				<key>Mask</key>
+				<data>
+				</data>
+				<key>OemTableId</key>
+				<data>
+				QTAxMEQAAAA=
+				</data>
+				<key>Replace</key>
+				<data>
+				FCxYUFJXAKAcWxJcLwRfU0JfUEMwMFJQMDhQUFJXAKRQ
+				UFJXpEdQUlcKaQoE
+				</data>
+				<key>ReplaceMask</key>
+				<data>
+				</data>
+				<key>Skip</key>
+				<integer>0</integer>
+				<key>TableLength</key>
+				<integer>466985</integer>
+				<key>TableSignature</key>
+				<data>
+				RFNEVA==
+				</data>
+			</dict>
 		</array>
 		<key>Quirks</key>
 		<dict>
@@ -1280,7 +1464,7 @@
 				<key>BundlePath</key>
 				<string>RealtekCardReader.kext</string>
 				<key>Comment</key>
-				<string></string>
+				<string>RealtekCardReader v0.9.8 Release</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1460,7 +1644,7 @@
 				<key>BundlePath</key>
 				<string>S0ixStandby.kext</string>
 				<key>Comment</key>
-				<string>S0ixStandby v0.5.4 Release</string>
+				<string>S0ixStandby v0.5.6 Release</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
