@@ -6,7 +6,7 @@
 
 东芝 dynabook G83/HS（11 代 Tiger Lake）黑苹果 EFI，支持 macOS Sequoia（15.8.x）与 macOS Tahoe（26.7+）。基于 OpenCore 1.0.8 RELEASE。
 
-**1.4.8 睡眠与唤醒修复**：改善睡眠后立即自动唤醒、反复睡醒及待机发热耗电，补齐电源键唤醒支持。已在本机 Sequoia 15.8.2 完成多次菜单睡眠、合盖睡眠和唤醒测试；整夜耗电、不同外设条件及 Tahoe 本次尚未复测。详见 [1.4.8 更新说明](docs/releases/1.4.8.md)。
+**1.4.9 组件与核显配套更新**：升级 Dynabook WhateverXe 0.8.5，配套 Graphics 0.4.5，并切换到 AMFIAnchor + Injector。更新睡眠、有线网卡、Tahoe 音频恢复组件，启用读卡器系统信息识别；沿用 1.4.8 的睡眠与电源键唤醒配置。详见 [1.4.9 更新说明](docs/releases/1.4.9.md)。
 
 ## 1. 最低系统要求
 
@@ -43,7 +43,7 @@
 | 蓝牙 | ✅ | IntelBluetoothFirmware + BlueToolFixup |
 | 有线网卡 | ✅ | IntelMausi |
 | USB | ✅ | USBToolBox + UTBMap 定制端口表 |
-| TF（microSD）卡槽 | ✅ | Realtek RTS522A（`10ec:522a`），1.4.8 更新为 `RealtekCardReader.kext` 0.9.8，以改善睡眠期间的稳定性。旧版已实测插卡识别与挂载，本次升级后未单独复测读写。 |
+| TF（microSD）卡槽 | ✅ | Realtek RTS522A（`10ec:522a`），1.4.8 更新为 `RealtekCardReader.kext` 0.9.8，以改善睡眠期间的稳定性。1.4.9 启用 RealtekCardReaderFriend 1.0.5，让“系统信息”正常显示内置读卡器。旧版已实测插卡识别与挂载，本次未单独复测读写。 |
 | 内屏（息屏）唤醒 | ✅ | 熄屏后可正常恢复 |
 | 睡眠唤醒 | ✅ | 1.4.8 改善异常循环唤醒；本机 Sequoia 15.8.2 已实测菜单睡眠、合盖睡眠、电源键及开盖唤醒。长时间待机耗电仍需验证。 |
 | 内屏亮度 | ✅ | 已修复开局亮度偏低 |
@@ -67,7 +67,7 @@
 
 ## 5. WEX（WhateverXe）改进点
 
-本版基于 [WhateverXe 0.8.3](https://github.com/b00t0x/WhateverXe/releases/tag/0.8.3)。下表列出 Dynabook G83 的显示修正，详见 [wex-modified-edition 0.8.3](https://github.com/xiananliu/wex-modified-edition/releases/tag/0.8.3)。
+本版基于 [WhateverXe 0.8.5](https://github.com/b00t0x/WhateverXe/releases/tag/0.8.5)。下表列出 Dynabook G83 的显示修正，详见 [wex-modified-edition 0.8.5](https://github.com/xiananliu/wex-modified-edition/releases/tag/0.8.5)。
 
 | 解决的问题 | 启动参数 |
 |-----------|---------|
@@ -83,7 +83,7 @@
 1. 用磁盘工具（或 `diskutil mount diskXs1`）挂载 EFI 分区，把本仓库的 `EFI` 覆盖过去（机器自带的 Windows 引导目录可保留不动）。
 2. BIOS 设置：关闭 **Secure Boot**即可启动（其他项保持默认）。
 3. **三码替换（必做一次）**：`config.plist` 的 `PlatformInfo→Generic` 中 `SystemSerialNumber / MLB / SystemUUID / ROM` 均为空——请用 [GenSMBIOS](https://github.com/corpnewt/GenSMBIOS) 选择 `MacBookPro16,2` 生成后再填入；`ROM` 填 12 位随机 MAC，或从另一台真 Mac 抓取（iMessage 更容易通）。**请勿直接使用网络/他人已发布的 serial**。
-4. **安装核显运行组件（必装）**：进入 macOS 后，安装与本 EFI 配套的 [WhateverXe-Graphics-0.4.4.pkg](https://github.com/b00t0x/WhateverXe-Graphics/releases/download/v0.4.4/WhateverXe-Graphics-0.4.4.pkg)，然后重启。已经安装 0.4.4 的用户无需重复安装。
+4. **安装核显运行组件（必装）**：进入 macOS 后，安装与本 EFI 配套的 [WhateverXe-Graphics-0.4.5.pkg](https://github.com/b00t0x/WhateverXe-Graphics/releases/download/v0.4.5/WhateverXe-Graphics-0.4.5.pkg)，然后重启。已安装 0.4.4 的用户需更新到 0.4.5；已经安装 0.4.5 的用户无需重复安装。EFI 已包含 AMFIAnchor 和 Injector，从旧版合并配置时请移除旧 AMFIPass Mod 的加载项，保持新组件启用。
 5. **安装内置麦克风组件（必装）**：进入 macOS 后，下载并安装 [`TGLDmic-HAL-startup-fix.pkg`](https://github.com/xiananliu/TGLDmic-HAL-Fix/releases/download/hal-startup-fix-1/TGLDmic-HAL-startup-fix.pkg)。修正版会等内核驱动就绪后再向 Core Audio 注册麦克风，针对开机后输入设备偶尔不出现的问题。如果之前装过原版，直接安装修正版即可替换。安装后重启，在“系统设置 → 声音 → 输入”选择 **Internal Microphone (TGLDmic)**。若 macOS 阻止打开安装包，请在“隐私与安全性”中允许，或在 Finder 中右键选择“打开”。
 6. **恢复旧版关闭的睡眠**。更新 EFI 并重启后，如果之前按旧版说明关闭过睡眠，请在终端按需恢复。
    - `sudo pmset -a disablesleep 0` 解除系统睡眠禁用，恢复苹果菜单手动睡眠和合盖睡眠。
@@ -98,13 +98,14 @@
 |------|------|
 | [OpenCore](https://github.com/acidanthera/OpenCorePkg) | 引导程序（本仓库用 1.0.8 RELEASE） |
 | [Lilu](https://github.com/acidanthera/Lilu) | 内核补丁框架 |
+| [AMFIAnchor](https://github.com/b00t0x/AMFIAnchor) | 核显组件签名信任（0.1.2 + Injector 1.0.0；许可见 [LICENSE](docs/AMFIAnchor/LICENSE.txt)） |
 | [WhateverXe](https://github.com/b00t0x/WhateverXe) | 本机核显驱动的上游（BSD-3-Clause，本仓库 LICENSE 继承其许可体系） |
 | [WhateverXe Graphics](https://github.com/b00t0x/WhateverXe-Graphics) | 核显运行组件（首次进系统必装，见使用说明第 4 条） |
 | [wex-modified-edition](https://github.com/xiananliu/wex-modified-edition) | 本机使用的 WhateverXe 下游修改版（驱动改进细节见其 README） |
 | [VirtualSMC](https://github.com/acidanthera/VirtualSMC) | SMC 模拟（含电池/传感器插件） |
-| [S0ixStandby](https://github.com/labrouss/S0ixStandby) | Deep Idle 睡眠与唤醒（v0.5.6，BSD-3-Clause，许可见 [LICENSE](EFI/OC/Kexts/S0ixStandby.kext/Contents/Resources/LICENSE)） |
+| [S0ixStandby](https://github.com/labrouss/S0ixStandby) | Deep Idle 睡眠与唤醒（v0.5.9，上游预发布版，BSD-3-Clause，许可见 [LICENSE](EFI/OC/Kexts/S0ixStandby.kext/Contents/Resources/LICENSE)） |
 | [AppleALC](https://github.com/acidanthera/AppleALC) | 声卡驱动 |
-| [SimpleHDA](https://github.com/laobamac/SimpleHDA) | macOS Tahoe 原版 AppleHDA 恢复插件（本 EFI 已配置） |
+| [SimpleHDA](https://github.com/laobamac/SimpleHDA) | macOS Tahoe 原版 AppleHDA 恢复插件（1.0.2，仅在对应系统加载） |
 | [TGLDmic](https://github.com/labrouss/TGLDmic) | Tiger Lake 数字麦克风驱动（BSD-3-Clause；版权归 labrouss 与 TGLDmic contributors；EFI 内含 kext，系统内需安装 HAL pkg） |
 | [AirportItlwm](https://github.com/OpenIntelWireless/itlwm) | Intel Wi-Fi 驱动 |
 | [IntelBluetoothFirmware](https://github.com/OpenIntelWireless/IntelBluetoothFirmware) | Intel 蓝牙驱动 |
