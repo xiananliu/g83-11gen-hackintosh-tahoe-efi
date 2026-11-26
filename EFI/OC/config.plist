@@ -1050,7 +1050,7 @@
 				<key>BundlePath</key>
 				<string>WhateverXe.kext</string>
 				<key>Comment</key>
-				<string>WhateverXe 0.8.5 Dynabook RELEASE</string>
+				<string>WhateverXe 0.8.5 eDP-fix Dynabook RELEASE</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1662,7 +1662,7 @@
 				<key>BundlePath</key>
 				<string>S0ixStandby.kext</string>
 				<key>Comment</key>
-				<string>S0ixStandby v0.5.9 Release</string>
+				<string>S0ixStandby v0.5.15 Release</string>
 				<key>Enabled</key>
 				<true/>
 				<key>ExecutablePath</key>
@@ -1969,7 +1969,7 @@
 				AAAAAAAAAAAAAAAAAAA=
 				</data>
 				<key>boot-args</key>
-				<string>-allow3d -disablegfxfirmware -igfxdvmt -vi2c-force-polling alcid=11 -wex-cdclk-sanitize -wex-blfix -wex-hdmi-clock600 -wex-hdmi-scdc-write -tgldmic</string>
+				<string>-allow3d -disablegfxfirmware -igfxdvmt -vi2c-force-polling alcid=11 -wex-cdclk-sanitize -wex-edp-rate-auto -wex-blfix -wex-hdmi-clock600 -wex-hdmi-scdc-write -tgldmic</string>
 				<key>csr-active-config</key>
 				<data>
 				AwgAAA==

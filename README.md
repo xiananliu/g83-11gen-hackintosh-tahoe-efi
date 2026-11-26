@@ -6,7 +6,7 @@
 
 东芝 dynabook G83/HS（11 代 Tiger Lake）黑苹果 EFI，支持 macOS Sequoia（15.8.x）与 macOS Tahoe（26.7+）。基于 OpenCore 1.0.8 RELEASE。
 
-**1.4.9 组件与核显配套更新**：升级 Dynabook WhateverXe 0.8.5，配套 Graphics 0.4.5，并切换到 AMFIAnchor + Injector。更新睡眠、有线网卡、Tahoe 音频恢复组件，启用读卡器系统信息识别；沿用 1.4.8 的睡眠与电源键唤醒配置。详见 [1.4.9 更新说明](docs/releases/1.4.9.md)。
+**1.5.0 核显与睡眠组件更新**：核显升级为 Dynabook WhateverXe 0.8.5 eDP 修复版，启动参数新增 `-wex-edp-rate-auto`；睡眠组件 S0ixStandby 更新至 0.5.15。图形组件继续配套 Graphics 0.4.5，其余驱动与配置沿用 1.4.9。详见 [1.5.0 更新说明](docs/releases/1.5.0.md)。
 
 ## 1. 最低系统要求
 
@@ -67,12 +67,13 @@
 
 ## 5. WEX（WhateverXe）改进点
 
-本版基于 [WhateverXe 0.8.5](https://github.com/b00t0x/WhateverXe/releases/tag/0.8.5)。下表列出 Dynabook G83 的显示修正，详见 [wex-modified-edition 0.8.5](https://github.com/xiananliu/wex-modified-edition/releases/tag/0.8.5)。
+本版基于 [WhateverXe 0.8.5](https://github.com/b00t0x/WhateverXe/releases/tag/0.8.5)，使用 [wex-modified-edition 0.8.5 eDP 修复版](https://github.com/xiananliu/wex-modified-edition/releases/tag/0.8.5-edp-fix)。下表列出 Dynabook G83 的显示修正。
 
 | 解决的问题 | 启动参数 |
 |-----------|---------|
 | 原生 HDMI 的 4K@60Hz 模式无法选择，或输出时周期性黑闪 | `-wex-hdmi-clock600` 和 `-wex-hdmi-scdc-write`，一起启用 |
 | 驱动接管时因异常显示时钟导致内屏黑屏 | `-wex-cdclk-sanitize` |
+| Tiger Lake 内屏使用 eDP 速率表时，驱动接管后黑屏 | `-wex-edp-rate-auto`，1.5.0 起默认启用 |
 | 开机亮度偏低 | `-wex-blfix` |
 | 长时间熄屏后内屏无法恢复 | `-wex-dcoff`，默认不启用，遇到此问题可单独测试 |
 
@@ -103,7 +104,7 @@
 | [WhateverXe Graphics](https://github.com/b00t0x/WhateverXe-Graphics) | 核显运行组件（首次进系统必装，见使用说明第 4 条） |
 | [wex-modified-edition](https://github.com/xiananliu/wex-modified-edition) | 本机使用的 WhateverXe 下游修改版（驱动改进细节见其 README） |
 | [VirtualSMC](https://github.com/acidanthera/VirtualSMC) | SMC 模拟（含电池/传感器插件） |
-| [S0ixStandby](https://github.com/labrouss/S0ixStandby) | Deep Idle 睡眠与唤醒（v0.5.9，上游预发布版，BSD-3-Clause，许可见 [LICENSE](EFI/OC/Kexts/S0ixStandby.kext/Contents/Resources/LICENSE)） |
+| [S0ixStandby](https://github.com/labrouss/S0ixStandby) | Deep Idle 睡眠与唤醒（v0.5.15，上游预发布版，BSD-3-Clause，许可见 [LICENSE](EFI/OC/Kexts/S0ixStandby.kext/Contents/Resources/LICENSE)） |
 | [AppleALC](https://github.com/acidanthera/AppleALC) | 声卡驱动 |
 | [SimpleHDA](https://github.com/laobamac/SimpleHDA) | macOS Tahoe 原版 AppleHDA 恢复插件（1.0.2，仅在对应系统加载） |
 | [TGLDmic](https://github.com/labrouss/TGLDmic) | Tiger Lake 数字麦克风驱动（BSD-3-Clause；版权归 labrouss 与 TGLDmic contributors；EFI 内含 kext，系统内需安装 HAL pkg） |
